@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Request {
@@ -81,5 +83,38 @@ public class Request {
             throw new RuntimeException(e);
         }
         return userGet;
+    }
+    public static List<User> getAllUser(){
+        //instance d'une liste
+        List<User> liste = new ArrayList<>();
+        try {
+            //1 Connection à la BDD...
+            Statement stmt = connexion.createStatement();
+            //2 Requête SQL
+            String sql = "SELECT id,nom, prenom, email, pwd FROM users";
+            //3 préparer la requête
+            PreparedStatement preparedStatement = connexion.prepareStatement(sql);
+            //5 Exécution de la requête
+            ResultSet rs = preparedStatement.executeQuery();
+            //Vérification si on à des enregistrements
+            while (rs.next()){
+                //test si l'id existe
+                if(rs.getString("id")!= null){
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setNom(rs.getString("nom"));
+                    user.setPrenom(rs.getString("prenom"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPwd(rs.getString("pwd"));
+                    //ajout du compte à la liste
+                    liste.add(user);
+                }
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        //retourne la liste
+        return liste;
     }
 }
