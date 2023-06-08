@@ -25,7 +25,7 @@ public class Request {
             //1 Connection à la BDD...
             Statement stmt = connexion.createStatement();
             //2 Requête SQL
-            String sql = "INSERT INTO users (nom, prenom, email,pwd ) " + "VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO users (nom, prenom, email,pwd )VALUES (?, ?, ?, ?)";
             //3 préparer la requête
             PreparedStatement preparedStatement = connexion.prepareStatement(sql);
             //4 Bind des paramètres
@@ -116,5 +116,32 @@ public class Request {
         }
         //retourne la liste
         return liste;
+    }
+    public static User updateUser(User user, String nom, String prenom, String email, String pwd){
+        User userUpdate = null;
+        try{
+            Statement stmt = connexion.createStatement();
+            //2 Requête SQL
+            String sql = "UPDATE users set nom = ?, prenom = ?, email = ?, pwd = ? WHERE id = ?";
+            //3 préparer la requête
+            PreparedStatement preparedStatement = connexion.prepareStatement(sql);
+            //bind des paramètres
+            preparedStatement.setString(1, nom);
+            preparedStatement.setString(2, prenom);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, pwd);
+            preparedStatement.setInt(5, user.getId());
+            //5 Exécution de la requête
+            int addedRows = preparedStatement.executeUpdate();
+            //6 Test si la requête à été effectué
+            if(addedRows>0){
+                //assigner un user à userAdd
+                userUpdate = new User(nom, prenom, email, pwd);
+                userUpdate.setId(user.getId());
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return userUpdate;
     }
 }

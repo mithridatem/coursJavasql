@@ -1,9 +1,9 @@
 import java.util.List;
-
 public class Main {
     public static void main(String[] args) {
+        /*
         //instancier un objet User
-        User test = new User("Test4", "Test4", "test4@test.com", "1234");
+        User test = new User("Test4", "Test4", "test5@test.com", "1234");
         //Appel de la fonction getUserByMail
         User getUser = Request.getUserByMail(test);
         //test si un compte existe
@@ -14,6 +14,7 @@ public class Main {
         else{
             System.out.println("Le compte : "+Request.addUser(test).getNom()+" a été ajouté en BDD");
         }
+        */
         //stocke la liste des User
         var allUser = Request.getAllUser();
 
@@ -24,5 +25,10 @@ public class Main {
             System.out.println("-"+value.getId()+" "+value.getNom()+" "+value.getPrenom()+" "
             +value.getEmail()+" "+value.getPwd());
         }
+        User userUp = Request.updateUser(allUser.get(0), "Mithridate", "test", allUser.get(0).getEmail(), "14852");
+        if(userUp!=null)
+            System.out.println("Le compte "+allUser.get(0).getNom()+" a été mis à jour");
+        else
+            System.out.println("Le compte n'existe pas");
     }
 }
