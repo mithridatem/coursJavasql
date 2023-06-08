@@ -25,6 +25,7 @@ public class Main {
             System.out.println("-"+value.getId()+" "+value.getNom()+" "+value.getPrenom()+" "
             +value.getEmail()+" "+value.getPwd());
         }
+        //penser à passer dans le premier paramètre un compte qui existe (qui à un id valide)
         User userUp = Request.updateUser(allUser.get(0), "Mithridate", "test", allUser.get(0).getEmail(), "14852");
         if(userUp!=null)
             System.out.println("Le compte "+allUser.get(0).getNom()+" a été mis à jour");
